@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Din varukorg</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <h2>Din varukorg</h2>
+    <ul id="output"></ul>
+    <h3>Ange dina uppgifter:</h3>
+    <form id="myForm">
+        <div class="form-group">
+            <input type="text" class="form-control" id="name" placeholder="Namn">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="phone" placeholder="Telefonnummer">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="email" placeholder="Epost">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="adress" placeholder="Leveransadress">
+        </div>
+        <button type="submit" class="btn btn-primary">Beställ</button>
+    </form>
+
+    <script>
+        var cart = JSON.parse(localStorage.getItem("cart"));
+        let output = "";
+        let sum = 0;
+
+        //Lists the products in the cart
+        cart.forEach(product => {
+            output += 
+            `<li>1 x ${product.title} ${product.price} euro</li>`
+            sum += 
+            product.price;
+        });
+        
+        output += 
+        `Totalt: ${Math.round(sum * 100) / 100} euro`
+        document.getElementById("output").innerHTML = output;
+
+        document.getElementById("myForm").addEventListener("submit", placeOrder);
+
+        //Function to "submit" the values from the user (i.e place order) or send error message
+        function placeOrder(e) {
+            let name = document.getElementById("name").value,
+                phone = document.getElementById("phone").value,
+                email = document.getElementById("email").value,
+                adress = document.getElementById("adress").value,
+    
+            if (!validateForm(name, phone, email, adress)) {
+                return false;
+            }
+            else {
+                alert("Tack för att du handlade hos oss!");
+            }
+        }
+        //Function to validate the fields in the form
+        function validateForm(name, phone, email, adress) {
+            if (!name || !phone || !email || !adress) {
+                alert("Fyll i alla fält!")
+                return false;
+            }
+            return true;
+        }
+
+    </script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+
+</html>

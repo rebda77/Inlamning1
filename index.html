@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webbshop</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <h1 class="text-center">Webbshopen</h1>
+    <div class="container">
+        <div class="row" id="output">
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        //Fetching from the API
+        fetch("https://fakestoreapi.com/products")
+            .then(resp => resp.json())
+            .then(data => render(data))
+            .catch(err => console.error(err));
+
+        //Rendering the products
+        function render(data) {
+            let output = "";
+            data.forEach(product => {
+            output +=
+             `<div class="card h-100">
+                 <img class="card-img-top" src=${product.image} alt="Product">
+                    <div class="card-body">
+                        <h4 class="card-title">${product.title}</h4>
+                        <h5>${product.price} euro</h5>
+                        <p class="card-text">${product.description}</p>
+                        <a class="btn btn-primary" onclick="getItem(${product.id})" href="form.html" target="_blank">Köp</a>
+                    </div>
+            </div>`
+            });
+            document.getElementById("output").innerHTML = output;
+        }
+
+    </script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
